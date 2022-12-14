@@ -13,9 +13,7 @@ class Solution {
 public:
     
     TreeNode* createTree(vector <int>& nums, int l, int r) {
-        if (l > r)
-            return NULL;
-        
+        if (l > r) return NULL;
         int mid = l + (r - l) / 2;
         TreeNode* root = new TreeNode(nums[mid]);
         root -> left = createTree(nums, l, mid - 1);
