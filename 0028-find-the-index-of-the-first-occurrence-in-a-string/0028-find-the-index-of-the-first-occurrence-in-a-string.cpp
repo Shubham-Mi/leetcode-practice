@@ -1,18 +1,28 @@
 class Solution {
 public:
-    int strStr(string haystack, string needle) {
-        int n = haystack.size();
-        int m = needle.size();
-        if (m == 0) return 0;
-        for (int i=0; i<=n-m; ++i) {
-            bool found = true;
-            for (int j=0; j<m; ++j) {
-                if (needle[j] != haystack[i + j]) {
-                    found = false;
-                    break;
-                }
+    vector <int> calculateLps(string s) {
+        int n = s.size();
+        vector <int> lps(n, 0);
+        int prev = 0;
+        int i=1;
+        while (i < n) {
+            if (s[i] == s[prev]) {
+                prev++;
+                lps[i] = prev;
+                i++;
+            } else {
+                if (prev == 0) i++;
+                else prev = lps[prev - 1];
             }
-            if (found) return i;
+        }
+        return lps;
+    }
+    int strStr(string haystack, string needle) {
+        int n = needle.size();
+        vector <int> lps = calculateLps(needle + '$' + haystack);
+        int m = lps.size();
+        for (int i=n+1; i<m; ++i) {
+            if (lps[i] == n) return i - n - n;
         }
         return -1;
     }
